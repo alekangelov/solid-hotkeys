@@ -1187,6 +1187,11 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
+solid-hotkeys@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/solid-hotkeys/-/solid-hotkeys-0.0.2.tgz#2b418f8f1215c0987c566f6f82ce4ec69f90c8db"
+  integrity sha512-AN0nf7h0xD0DTtuRXLm8KbpJzZdBCQsoQf5SDvjOFPm1DD71cNycXELP16d9x9UWj3hxvVtT0niykt1cIAzI7A==
+
 solid-js@^1.3.3, solid-js@^1.4.2:
   version "1.4.3"
   resolved "https://registry.npmjs.org/solid-js/-/solid-js-1.4.3.tgz"

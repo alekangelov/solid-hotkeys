@@ -1,0 +1,11 @@
+example
+node_modules
+lib
+.prettierrc
+*.png
+*.yaml
+*.lock
+vite.config.ts
+tsconfig.json
+.vscode
+!dist

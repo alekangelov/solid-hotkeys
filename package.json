@@ -1,10 +1,14 @@
 {
   "name": "solid-hotkeys",
-  "version": "0.0.1",
-  "private": true,
+  "version": "0.1.0",
+  "private": false,
   "description": "",
   "main": "./dist/lib/index.js",
   "types": "./dist/lib/index.d.ts",
+  "files": [
+    "dist/lib/**/*",
+    "dist/lib/*"
+  ],
   "exports": {
     ".": {
       "import": "./dist/lib/index.es.js",
