@@ -1,20 +1,26 @@
 import { onCleanup, onMount } from "solid-js";
 import { arrayEquality, arrToUpperCase } from "./helpers";
-import { HotkeyCallback, HotkeyEvent, Keys, Options } from "./helpers/types";
-
-const ESCAPE_HATCH = "*";
+import {
+  HotkeyCallback,
+  HotkeyEvent,
+  Keys,
+  Options,
+} from "./helpers/types";
 
 export const useHotkeys = <T extends Keys[] | "*">(
   keys: T,
   callback: HotkeyCallback<T>,
   options?: Options
 ) => {
-  const hotkeys = typeof keys != "string" ? arrToUpperCase(keys) : "*";
+  const hotkeys =
+    typeof keys != "string" ? arrToUpperCase(keys) : "*";
   const pressedKeys = new Set<Uppercase<Keys>>();
   const handleKeyDown = (event: HotkeyEvent) => {
     if (event.defaultPrevented) return;
     if (hotkeys == "*") {
-      return (callback as HotkeyCallback<"*">)([...pressedKeys]);
+      return (callback as HotkeyCallback<"*">)([
+        ...pressedKeys,
+      ]);
     }
     const key = event.key.toUpperCase() as Uppercase<Keys>;
     if (!hotkeys.includes(key)) return;
@@ -27,7 +33,9 @@ export const useHotkeys = <T extends Keys[] | "*">(
   };
 
   const handleKeyUp = (event: HotkeyEvent) => {
-    pressedKeys.delete(event.key.toUpperCase() as Uppercase<Keys>);
+    pressedKeys.delete(
+      event.key.toUpperCase() as Uppercase<Keys>
+    );
   };
 
   onMount(() => {
@@ -42,8 +50,23 @@ export const useHotkeys = <T extends Keys[] | "*">(
       options?.listenerOptions || undefined
     );
     onCleanup(() => {
-      window.removeEventListener("keydown", handleKeyDown as any);
-      window.removeEventListener("keyup", handleKeyUp as any);
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown as any
+      );
+      window.removeEventListener(
+        "keyup",
+        handleKeyUp as any
+      );
     });
   });
+};
+
+type UppercaseKeys = Uppercase<Keys>;
+
+export type {
+  Keys,
+  UppercaseKeys,
+  HotkeyEvent,
+  HotkeyCallback,
 };
