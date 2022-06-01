@@ -1,15 +1,15 @@
-# Solid Hotkeys
+# Solid Hotkeys - Cmd+S+H
 
 [![Solid Hotkeys Banner](https://raw.githubusercontent.com/alekangelov/solid-hotkeys/main/hotkeys-banner.png)](https://alekangelov.github.io/solid-hotkeys)
 
 Solid Hotkeys is the easiest way to add hotkeys to your application.
 Built for and with [Solid](https://github.com/solidjs/solid).
 
-# Motivation
+## Motivation
 
 You gotta have hotkeys in your app. It doesn't use timeouts and other stuff like that, but rather checks if the keys currently are pressed and in the right order.
 
-# Installation
+## Installation
 
 There are a couple of things you need to do to install Hotkeys.
 
@@ -23,7 +23,7 @@ npm i solid-hotkeys
 
 and presto you can get to hotkeying.
 
-# Usage
+## Usage
 
 The API is pretty simple and extensively types, so it's going to be really hard to mess it up, but here are a couple of examples:
 
