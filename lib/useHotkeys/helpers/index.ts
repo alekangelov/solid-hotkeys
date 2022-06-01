@@ -1,12 +1,7 @@
 import { Modifiers } from './types';
 
-type Truthy<T> = T extends false | '' | 0 | null | undefined
-  ? never
-  : T; // from lodash
-export const arrayEquality = (
-  arr1: string[],
-  arr2: string[],
-): boolean => {
+type Truthy<T> = T extends false | '' | 0 | null | undefined ? never : T; // from lodash
+export const arrayEquality = (arr1: string[], arr2: string[]): boolean => {
   if (arr1.length !== arr2.length) {
     return false;
   }
@@ -20,17 +15,9 @@ export const arrayEquality = (
 export function onlyTruthy<T>(arr: T[]): Truthy<T>[] {
   return arr.filter(Boolean) as Truthy<T>[];
 }
-export function whatModifierIsPressed(
-  event: KeyboardEvent,
-): Modifiers[] {
+export function whatModifierIsPressed(event: KeyboardEvent): Modifiers[] {
   const { ctrlKey, altKey, shiftKey } = event;
-  return onlyTruthy([
-    ctrlKey && 'ctrl',
-    altKey && 'alt',
-    shiftKey && 'shift',
-  ]);
+  return onlyTruthy([ctrlKey && 'ctrl', altKey && 'alt', shiftKey && 'shift']);
 }
 
-export const arrToUpperCase = <T extends string>(
-  arr: T[],
-): Uppercase<T>[] => arr.map((item) => item.toUpperCase()) as Uppercase<T>[];
+export const arrToUpperCase = <T extends string>(arr: T[]): Uppercase<T>[] => arr.map((item) => item.toUpperCase()) as Uppercase<T>[];

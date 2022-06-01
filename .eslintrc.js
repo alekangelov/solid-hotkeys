@@ -12,6 +12,7 @@ module.exports = {
     },
   },
   extends: [
+    "prettier",
     "airbnb-base",
     "eslint:recommended",
     "plugin:solid/recommended",
@@ -37,7 +38,14 @@ module.exports = {
     "solid/jsx-no-undef": "error",
     "import/extensions": 0,
     "import/prefer-default-export": 0,
-    "import/no-extraneous-dependencies": 0
+    "import/no-extraneous-dependencies": 0,
+    'object-curly-newline': 'off',
+    "max-len": [
+      "warn",
+      {
+        "code": 80,
+      }
+    ]
   },
   ignorePatterns: ["dist"],
 };

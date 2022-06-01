@@ -1,11 +1,6 @@
 import { onCleanup, onMount } from 'solid-js';
 import { arrayEquality, arrToUpperCase } from './helpers';
-import {
-  HotkeyCallback,
-  HotkeyEvent,
-  Keys,
-  Options,
-} from './helpers/types';
+import { HotkeyCallback, HotkeyEvent, Keys, Options } from './helpers/types';
 
 const UNAUTHORIZED_ACCESS = new Set(['INPUT', 'TEXTAREA']);
 
@@ -45,9 +40,7 @@ export const useHotkeys = <T extends Keys[] | '*'>(
   };
 
   const handleKeyUp = (event: HotkeyEvent) => {
-    pressedKeys.delete(
-      event.key.toUpperCase() as Uppercase<Keys>,
-    );
+    pressedKeys.delete(event.key.toUpperCase() as Uppercase<Keys>);
   };
 
   onMount(() => {
@@ -62,23 +55,12 @@ export const useHotkeys = <T extends Keys[] | '*'>(
       options?.listenerOptions || undefined,
     );
     onCleanup(() => {
-      window.removeEventListener(
-        'keydown',
-        handleKeyDown as any,
-      );
-      window.removeEventListener(
-        'keyup',
-        handleKeyUp as any,
-      );
+      window.removeEventListener('keydown', handleKeyDown as any);
+      window.removeEventListener('keyup', handleKeyUp as any);
     });
   });
 };
 
 type UppercaseKeys = Uppercase<Keys>;
 
-export type {
-  Keys,
-  UppercaseKeys,
-  HotkeyEvent,
-  HotkeyCallback,
-};
+export type { Keys, UppercaseKeys, HotkeyEvent, HotkeyCallback };
