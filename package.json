@@ -26,7 +26,8 @@
   "scripts": {
     "build": "yarn workspace solid-hotkeys build",
     "lint": "eslint . --ext .ts,.tsx",
-    "prettify": "prettier --write '**/*.{ts,tsx}'"
+    "prettify": "prettier --write '**/*.{ts,tsx}'",
+    "prepare": "husky install"
   },
   "workspaces": [
     "lib/*",
