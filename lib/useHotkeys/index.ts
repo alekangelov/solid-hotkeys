@@ -1,30 +1,42 @@
-import { onCleanup, onMount } from "solid-js";
-import { arrayEquality, arrToUpperCase } from "./helpers";
+import { onCleanup, onMount } from 'solid-js';
+import { arrayEquality, arrToUpperCase } from './helpers';
 import {
   HotkeyCallback,
   HotkeyEvent,
   Keys,
   Options,
-} from "./helpers/types";
+} from './helpers/types';
 
-export const useHotkeys = <T extends Keys[] | "*">(
+const UNAUTHORIZED_ACCESS = new Set(['INPUT', 'TEXTAREA']);
+
+export const useHotkeys = <T extends Keys[] | '*'>(
   keys: T,
   callback: HotkeyCallback<T>,
-  options?: Options
+  options?: Options,
 ) => {
-  const hotkeys =
-    typeof keys != "string" ? arrToUpperCase(keys) : "*";
+  const hotkeys = typeof keys !== 'string' ? arrToUpperCase(keys) : '*';
   const pressedKeys = new Set<Uppercase<Keys>>();
   const handleKeyDown = (event: HotkeyEvent) => {
-    if (event.defaultPrevented) return;
-    if (hotkeys == "*") {
-      return (callback as HotkeyCallback<"*">)([
-        ...pressedKeys,
-      ]);
+    if (
+      event.defaultPrevented
+      || UNAUTHORIZED_ACCESS.has(
+        (event.target as HTMLElement)?.tagName.toUpperCase(),
+      )
+    ) return;
+
+    if (hotkeys === '*') {
+      (callback as HotkeyCallback<'*'>)([...pressedKeys]);
+      return;
     }
+
     const key = event.key.toUpperCase() as Uppercase<Keys>;
+
     if (!hotkeys.includes(key)) return;
+
+    event.preventDefault();
+
     pressedKeys.add(key);
+
     if (arrayEquality([...hotkeys], [...pressedKeys])) {
       event.preventDefault();
       (callback as HotkeyCallback<Array<Keys>>)(event);
@@ -34,29 +46,29 @@ export const useHotkeys = <T extends Keys[] | "*">(
 
   const handleKeyUp = (event: HotkeyEvent) => {
     pressedKeys.delete(
-      event.key.toUpperCase() as Uppercase<Keys>
+      event.key.toUpperCase() as Uppercase<Keys>,
     );
   };
 
   onMount(() => {
     window.addEventListener(
-      "keydown",
+      'keydown',
       handleKeyDown as any,
-      options?.listenerOptions || undefined
+      options?.listenerOptions || undefined,
     );
     window.addEventListener(
-      "keyup",
+      'keyup',
       handleKeyUp as any,
-      options?.listenerOptions || undefined
+      options?.listenerOptions || undefined,
     );
     onCleanup(() => {
       window.removeEventListener(
-        "keydown",
-        handleKeyDown as any
+        'keydown',
+        handleKeyDown as any,
       );
       window.removeEventListener(
-        "keyup",
-        handleKeyUp as any
+        'keyup',
+        handleKeyUp as any,
       );
     });
   });

@@ -9,3 +9,4 @@ vite.config.ts
 tsconfig.json
 .vscode
 !dist
+lib

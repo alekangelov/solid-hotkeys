@@ -1,7 +1,7 @@
 {
   "name": "solid-hotkeys",
   "version": "0.1.0",
-  "private": false,
+  "private": true,
   "description": "",
   "main": "./dist/lib/index.js",
   "types": "./dist/lib/index.d.ts",
@@ -15,26 +15,22 @@
       "require": "./dist/lib/index.umd.js"
     }
   },
+  "scripts": {
+    "build": "yarn workspace solid-hotkeys build",
+    "lint": "eslint . --ext .ts,.tsx"
+  },
   "workspaces": [
-    "lib",
+    "lib/*",
     "example"
   ],
-  "scripts": {
-    "dev": "vite build --watch",
-    "prebuild": "rm -rf dist/lib",
-    "build": "vite build"
-  },
-  "license": "MIT",
   "devDependencies": {
-    "@types/node": "^17.0.38",
-    "ts-key-enum": "^2.0.11",
-    "typescript": "^4.6.4",
-    "vite": "^2.9.9",
-    "vite-plugin-dts": "^1.2.0",
-    "vite-plugin-solid": "^2.2.6"
-  },
-  "dependencies": {},
-  "peerDependencies": {
-    "solid-js": "^1.4.2"
+    "@typescript-eslint/eslint-plugin": "^5.27.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^5.27.0",
+    "@typescript-eslint/parser": "^5.27.0",
+    "eslint": "^8.16.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-solid": "^0.6.0",
+    "tslint": "^6.1.3"
   }
 }

@@ -1,8 +1,17 @@
-import type { Component } from "solid-js";
-import { ThemeProvider } from "solid-styled-components";
+import type { Component } from 'solid-js';
+import { useHotkeys } from 'solid-hotkeys';
+import { GlobalStyles } from './styles/theme';
 
 const App: Component = () => {
-  return <ThemeProvider theme={{}}></ThemeProvider>;
+  useHotkeys(['j'], () => console.log("it's pressed!"), {
+    listenerOptions: { passive: true },
+  });
+  return (
+    <div>
+      <GlobalStyles />
+      <input />
+    </div>
+  );
 };
 
 export default App;

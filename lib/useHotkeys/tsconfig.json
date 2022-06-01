@@ -3,13 +3,14 @@
     "strict": true,
     "target": "ESNext",
     "module": "ESNext",
-
+    "outDir": "../../dist/lib",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "types": ["vite/client"],
+    "lib": ["esnext", "dom"],
     "isolatedModules": true
   }
 }
