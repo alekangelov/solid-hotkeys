@@ -5,6 +5,14 @@
   "description": "",
   "main": "./dist/lib/index.js",
   "types": "./dist/lib/index.d.ts",
+  "husky": {
+    "hooks": {
+      "pre-commit": [
+        "lint",
+        "prettify"
+      ]
+    }
+  },
   "files": [
     "dist/lib/**/*",
     "dist/lib/*"
@@ -17,7 +25,8 @@
   },
   "scripts": {
     "build": "yarn workspace solid-hotkeys build",
-    "lint": "eslint . --ext .ts,.tsx"
+    "lint": "eslint . --ext .ts,.tsx",
+    "prettify": "prettier --write '**/*.{ts,tsx}'"
   },
   "workspaces": [
     "lib/*",
@@ -31,6 +40,8 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-solid": "^0.6.0",
+    "husky": "^8.0.1",
+    "prettier": "^2.6.2",
     "tslint": "^6.1.3"
   }
 }
