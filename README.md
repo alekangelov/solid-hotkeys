@@ -53,7 +53,7 @@ const opposite = (prev: boolean) => !prev;
 const Basic = () => {
   const [show, setShow] = createSignal(false);
 
-  useHotkeys(['Meta', 'P'], () => {
+  useHotkeys(['META', 'P'], () => {
     setShow(opposite);
   });
 
