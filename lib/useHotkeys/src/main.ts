@@ -1,11 +1,14 @@
 import { onCleanup, onMount } from 'solid-js';
 import { HotkeyEvent, NormalizedKeys, Options } from './helpers/types';
-import { hotkeyCallbacks, makePressed } from './common';
+import { hotkeyCallbacks } from './common';
+import { arrEquals, modifierArr, whatModifierIsPressed } from './helpers';
 
 // im using vim now, fuck this is difficult
-export const useHotkeys = (options: Options = {}) => {
+export const useHotkeys = (
+  options: Options = { debug: false, timeout: 500 },
+) => {
   // the keys that have been pressed in the past Options.timeout ms
-  const pressedKeys = makePressed(undefined, options?.debug);
+  const pressedKeys = new Set<NormalizedKeys>();
   // the timeouts for said keys
   const timeouts = new Map<NormalizedKeys, NodeJS.Timeout>();
 
@@ -15,34 +18,37 @@ export const useHotkeys = (options: Options = {}) => {
   // if you release multiple keys, only one event will fire
   // aka a bug's life
   const clearAllTimeouts = () => {
+    // if (options.debug) console.log('CLEARING ALL IMEOUTS');
     timeouts.forEach((timeout, key) => {
       clearTimeout(timeout);
       timeouts.delete(key);
     });
-    pressedKeys.clear();
   };
 
-  const getCallbacks = () => {
-    const arr = pressedKeys.getArray();
-    const combo = arr.join('+');
-
-    // maps are nice and performant
-    const callbacks = hotkeyCallbacks.get(combo);
-    return callbacks;
-  };
-
-  const unsubscribe = pressedKeys.subscribe(pressed => {
-    const callbacks = getCallbacks();
-
-    if (callbacks?.length) {
-      callbacks.forEach(callback => callback(pressed));
+  // wait for all tasks to finish running
+  // and then clear the keys
+  const clearKeys = () => {
+    // if (options.debug) console.log('CLEARING ALL KEYS AND TIMEOUTS');
+    setTimeout(() => {
       clearAllTimeouts();
-      return;
+      pressedKeys.clear();
+    }, 0);
+  };
+
+  const setTimeoutForKey = (key: NormalizedKeys) => {
+    if (timeouts.has(key)) {
+      clearTimeout(timeouts.get(key));
+      timeouts.delete(key);
     }
-    if (hotkeyCallbacks.has('*')) {
-      hotkeyCallbacks.get('*')?.forEach(callback => callback(pressed));
-    }
-  });
+    // if (options.debug) console.log('SETTINGS TIMEOUT FOR: ', key);
+    timeouts.set(
+      key,
+      setTimeout(() => {
+        // if (options.debug) console.log('timeout hopefully');
+        pressedKeys.delete(key);
+      }, options.timeout ?? 500),
+    );
+  };
 
   const handleKeyDown = (event: HotkeyEvent) => {
     // if it's prevented don't do anything
@@ -50,29 +56,33 @@ export const useHotkeys = (options: Options = {}) => {
     // because we use normalized keys
     // we need to make sure they're normalized 🫢
     const key = event.key.toUpperCase() as NormalizedKeys;
-    pressedKeys.add(key);
-    if (timeouts.has(key)) {
-      clearTimeout(timeouts.get(key));
-      timeouts.delete(key);
+    setTimeoutForKey(key);
+    if (!modifierArr.includes(key)) {
+      pressedKeys.add(key);
     }
-    timeouts.set(
-      key,
-      setTimeout(() => {
-        pressedKeys.delete(key);
-      }, options.timeout ?? 1000),
-    );
-    const callbacks = getCallbacks();
-    if (callbacks?.length) {
-      callbacks.forEach(e => {
-        if (e.options.preventDefault) event.preventDefault();
-        if (e.options.stopPropagation) event.stopPropagation();
-      });
+    const arr = [...pressedKeys];
+    const combo = arr.join('+');
+    // maps are nice and performant
+    const callback = hotkeyCallbacks.get(combo)?.at(-1);
+    if (!callback) {
+      return;
     }
+    const pressedModifiers = whatModifierIsPressed(event);
+    const { modifiers } = callback.options;
+    if (!arrEquals(modifiers, pressedModifiers)) {
+      return;
+    }
+    callback(event);
+    clearKeys();
   };
 
   const handleKeyUp = (event: HotkeyEvent) => {
     if (event.defaultPrevented) return;
-    pressedKeys.delete(event.key.toUpperCase() as NormalizedKeys);
+    clearTimeout(timeouts.get(event.key.toUpperCase() as NormalizedKeys));
+    timeouts.delete(event.key.toUpperCase() as NormalizedKeys);
+    if (pressedKeys.has(event.key.toUpperCase() as NormalizedKeys)) {
+      pressedKeys.delete(event.key.toUpperCase() as NormalizedKeys);
+    }
   };
 
   onMount(() => {
@@ -81,7 +91,6 @@ export const useHotkeys = (options: Options = {}) => {
     onCleanup(() => {
       window.removeEventListener('keydown', handleKeyDown as any);
       window.removeEventListener('keyup', handleKeyUp as any);
-      unsubscribe();
     });
   });
 };

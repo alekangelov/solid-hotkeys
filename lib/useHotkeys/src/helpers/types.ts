@@ -30,24 +30,28 @@ type AlphabetKeys =
 
 type NumberKeys = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
 
-export type Keys = `${TSKEYS | Lowercase<AlphabetKeys> | NumberKeys | '*'}`;
+export type Keys = `${TSKEYS | Lowercase<AlphabetKeys> | NumberKeys}`;
 
-export type Modifiers = 'ctrl' | 'alt' | 'shift';
+export type Modifiers = 'ctrl' | 'alt' | 'shift' | 'meta';
 
 export type HotkeyEvent = Omit<KeyboardEvent, 'key'> & {
   key: Keys;
 };
 
+export type NormalizedModifiers = Uppercase<
+  'control' | 'alt' | 'shift' | 'meta'
+>;
+
 export type NormalizedKeys = Uppercase<Keys>;
 export type HotkeyArray = NormalizedKeys[];
 
-export type HotkeyCallback = (pressed: Set<NormalizedKeys>) => void;
+export type HotkeyCallback = (event: HotkeyEvent) => void;
 export type HotkeyCallbackOptions = {
   preventDefault?: boolean;
   stopPropagation?: boolean;
 };
 export type InternalCallback = HotkeyCallback & {
-  options: HotkeyCallbackOptions;
+  options: HotkeyCallbackOptions & { modifiers: NormalizedModifiers[] };
 };
 
 export type Options = {

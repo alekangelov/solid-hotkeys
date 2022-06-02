@@ -1,24 +1,40 @@
-import { Modifiers } from './types';
+import { NormalizedKeys, NormalizedModifiers } from './types';
 
 type Truthy<T> = T extends false | '' | 0 | null | undefined ? never : T;
-export const arrayEquality = (arr1: string[], arr2: string[]): boolean => {
-  if (arr1.length !== arr2.length) {
-    return false;
-  }
-  for (let i = 0; i < arr1.length; i += 1) {
-    if (arr1[i] !== arr2[i]) {
-      return false;
-    }
-  }
-  return true;
-};
+
+export const modifierArr: NormalizedKeys[] = [
+  'CONTROL',
+  'ALT',
+  'SHIFT',
+  'META',
+];
+
 export function onlyTruthy<T>(arr: T[]): Truthy<T>[] {
   return arr.filter(Boolean) as Truthy<T>[];
 }
-export function whatModifierIsPressed(event: KeyboardEvent): Modifiers[] {
-  const { ctrlKey, altKey, shiftKey } = event;
-  return onlyTruthy([ctrlKey && 'ctrl', altKey && 'alt', shiftKey && 'shift']);
+export function whatModifierIsPressed(
+  event: KeyboardEvent,
+): NormalizedModifiers[] {
+  const { ctrlKey, altKey, shiftKey, metaKey } = event;
+  return onlyTruthy([
+    ctrlKey && 'CONTROL',
+    altKey && 'ALT',
+    shiftKey && 'SHIFT',
+    metaKey && 'META',
+  ]);
 }
 
-export const arrToUpperCase = <T extends string>(arr: T[]): Uppercase<T>[] =>
-  arr.map(item => item.toUpperCase()) as Uppercase<T>[];
+export function extractModifiers(keys: NormalizedKeys[]) {
+  const modifiersInKeys = keys.filter(key =>
+    modifierArr.includes(key),
+  ) as NormalizedModifiers[];
+  return {
+    modifiers: modifiersInKeys,
+    keys: keys.filter(key => !modifierArr.includes(key)),
+  };
+}
+
+export const arrEquals = <T>(a: T[], b: T[]) => {
+  if (a.length !== b.length) return false;
+  return a.every((v, i) => v === b[i]);
+};

@@ -1,5 +1,6 @@
-import { onCleanup } from 'solid-js';
+import { onCleanup, onMount } from 'solid-js';
 import { hotkeyCallbacks } from './common';
+import { extractModifiers } from './helpers';
 import {
   HotkeyCallback,
   HotkeyCallbackOptions,
@@ -12,26 +13,28 @@ export const createHotkey = (
   callbackFn: HotkeyCallback,
   options: HotkeyCallbackOptions = {},
 ) => {
-  const hkString = hotkeys.join('+');
-
-  // eslint-disable-next-line no-param-reassign
-  (callbackFn as InternalCallback).options = options;
-
-  const callback: InternalCallback = callbackFn as InternalCallback;
-  if (hotkeyCallbacks.has(hkString)) {
-    hotkeyCallbacks.set(hkString, [
-      ...(hotkeyCallbacks.get(hkString) || []),
-      callback,
-    ]);
-    return;
-  }
-  hotkeyCallbacks.set(hkString, [callback]);
-  onCleanup(() => {
-    const callbacksForString = hotkeyCallbacks.get(hkString);
-    if (!callbacksForString?.length) return;
-    hotkeyCallbacks.set(
-      hkString,
-      callbacksForString.filter((cb: InternalCallback) => cb !== callback),
-    );
+  onMount(() => {
+    const { keys, modifiers } = extractModifiers(hotkeys);
+    const combo = keys.join('+');
+    // eslint-disable-next-line no-param-reassign
+    (callbackFn as InternalCallback).options = { ...options, modifiers };
+    const callback: InternalCallback = callbackFn as InternalCallback;
+    if (hotkeyCallbacks.has(combo)) {
+      hotkeyCallbacks.set(combo, [
+        ...(hotkeyCallbacks.get(combo) || []),
+        callback,
+      ]);
+    }
+    hotkeyCallbacks.set(combo, [callback]);
+    onCleanup(() => {
+      // console.log('im unmounting');
+      const callbacksForString = hotkeyCallbacks.get(combo);
+      if (!callbacksForString?.length) return;
+      const newcallbacks = callbacksForString.filter(
+        (cb: InternalCallback) => cb !== callback,
+      );
+      // console.log(`SETTING NEW CALLBACKS FOR: ${combo}:`, { newcallbacks });
+      hotkeyCallbacks.set(combo, newcallbacks);
+    });
   });
 };

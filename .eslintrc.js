@@ -41,6 +41,8 @@ module.exports = {
     'object-curly-newline': 'off',
     'implicit-arrow-linebreak': 'off',
     'arrow-parens': 'off',
+    'function-paren-newline': 'off',
+    'operator-linebreak': 'off',
     'max-len': [
       'warn',
       {
