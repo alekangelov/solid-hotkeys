@@ -32,7 +32,18 @@ and presto you can get to hotkeying.
 
 ## Usage
 
-The API is pretty simple and extensively types, so it's going to be really hard to mess it up, but here are a couple of examples:
+The API is pretty simple and extensively typed, so it's going to be really hard to mess it up, but here are a couple of examples:
+
+## Prerequisites
+
+Register the useHotkeys hook in your app.
+
+```tsx
+render(() => {
+  useHotkeys();
+  return <div />;
+}, document.getElementById('root') as HTMLElement);
+```
 
 ## Basic
 
