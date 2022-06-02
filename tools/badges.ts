@@ -13,7 +13,14 @@ const list: BadgeEntries = [
   'nodeico',
   '---',
   '---',
-
+  [
+    'shields',
+    {
+      left: 'bundle',
+      right: '~2kb',
+      color: 'green',
+    },
+  ],
   // Development Badges
   'npmversion',
   'npmdownloads',

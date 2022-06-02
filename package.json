@@ -30,7 +30,8 @@
     "prettify": "prettier --write '**/*.{ts,tsx}'",
     "prepare": "husky install",
     "postbuild": "bundlesize",
-    "gen:badges": "ts-node ./tools/badges.ts"
+    "gen:badges": "ts-node ./tools/badges.ts",
+    "deploy": "gh-pages -d dist/app"
   },
   "workspaces": [
     "lib/*",
