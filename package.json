@@ -1,10 +1,15 @@
 {
   "name": "solid-hotkeys",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "private": true,
   "description": "",
   "main": "./dist/lib/index.js",
   "types": "./dist/lib/index.d.ts",
+  "homepage": "https://alekangelov.github.io/solid-hotkeys",
+  "repository": {
+    "type": "git",
+    "url": "github.com:alekangelov/solid-hotkeys.git"
+  },
   "husky": {
     "hooks": {
       "pre-commit": [

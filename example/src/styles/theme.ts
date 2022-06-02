@@ -13,9 +13,11 @@ export const createGlobalStyles = (theme: DefaultTheme) => createGlobalStylesFn`
 
   body {
     background: ${theme.colors.surface.toString()};
+    color: ${theme.getOnColor('surface').toString()};
     min-height: 90vh;
   }
   * {
+    color: inherit;
     font-family: inherit;
     box-sizing: border-box;
   }
@@ -46,7 +48,7 @@ const lightColors: DefaultTheme['colors'] = {
 const toFirstLetterUppercase = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
-export const theme = (isDark?: boolean): DefaultTheme => {
+export const createTheme = (isDark?: boolean): DefaultTheme => {
   const colors = isDark ? darkColors : lightColors;
   const mostReadable = (
     color: Color,

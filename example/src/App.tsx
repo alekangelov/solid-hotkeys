@@ -28,6 +28,10 @@ const App = () => {
   });
   return (
     <div>
+      <hgroup>
+        <h1>This is still in development, it's going to be sweet. I swear.</h1>
+        <h2>Currently there's this handly little demo</h2>
+      </hgroup>
       press cmd+p to show the bottom thing
       <Show when={modal()}>
         <Child />

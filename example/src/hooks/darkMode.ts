@@ -26,7 +26,6 @@ export const useDarkMode = (initialValue?: boolean): UseDarkModeOutput => {
   const disable = () => setIsDarkMode(false);
 
   createEffect(() => {
-    console.log(isDarkOS());
     setIsDarkMode(isDarkOS());
   });
 
