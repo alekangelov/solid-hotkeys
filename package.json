@@ -1,7 +1,7 @@
 {
   "name": "solid-hotkeys",
   "version": "0.2.3",
-  "private": true,
+  "private": false,
   "description": "",
   "main": "./dist/lib/index.js",
   "types": "./dist/lib/index.d.ts",
