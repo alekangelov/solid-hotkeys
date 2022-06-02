@@ -26,8 +26,11 @@
   "scripts": {
     "build": "yarn workspace solid-hotkeys build",
     "lint": "eslint . --ext .ts,.tsx",
+    "dev": "yarn workspace example dev",
     "prettify": "prettier --write '**/*.{ts,tsx}'",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postbuild": "bundlesize",
+    "gen:badges": "ts-node ./tools/badges.ts"
   },
   "workspaces": [
     "lib/*",
@@ -37,6 +40,8 @@
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "@typescript-eslint/eslint-plugin-tslint": "^5.27.0",
     "@typescript-eslint/parser": "^5.27.0",
+    "badges": "^4.27.0",
+    "bundlesize": "^0.18.1",
     "eslint": "^8.16.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",
@@ -44,6 +49,7 @@
     "eslint-plugin-solid": "^0.6.0",
     "husky": "^8.0.1",
     "prettier": "^2.6.2",
+    "ts-node": "^10.8.0",
     "tslint": "^6.1.3"
   }
 }

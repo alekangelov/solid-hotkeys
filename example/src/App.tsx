@@ -1,15 +1,20 @@
 import type { Component } from 'solid-js';
-import { useHotkeys } from 'solid-hotkeys';
+import { createHotkey } from 'solid-hotkeys';
 import { GlobalStyles } from './styles/theme';
 
 const App: Component = () => {
-  useHotkeys(['j'], () => console.log("it's pressed!"), {
-    listenerOptions: { passive: true },
-  });
+  createHotkey(
+    ['META', 'S'],
+    pressed => {
+      console.log({ pressed, main: true });
+    },
+    { preventDefault: false },
+  );
+
   return (
     <div>
       <GlobalStyles />
-      <input />
+      <input />S
     </div>
   );
 };

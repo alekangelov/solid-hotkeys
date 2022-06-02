@@ -2,6 +2,12 @@
 
 [![Solid Hotkeys Banner](https://raw.githubusercontent.com/alekangelov/solid-hotkeys/main/hotkeys-banner.png)](https://alekangelov.github.io/solid-hotkeys)
 
+<span class="badge-nodeico"><a href="https://www.npmjs.com/package/solid-hotkeys" title="Nodei.co badge"><img src="https://nodei.co/npm/solid-hotkeys.png?downloads=true&compact=true&height=2" alt="Nodei.co badge" /></a></span>
+<br class="badge-separator" />
+<br class="badge-separator" />
+<span class="badge-npmversion"><a href="https://npmjs.org/package/solid-hotkeys" title="View this project on NPM"><img src="https://img.shields.io/npm/v/solid-hotkeys.svg" alt="NPM version" /></a></span>
+<span class="badge-npmdownloads"><a href="https://npmjs.org/package/solid-hotkeys" title="View this project on NPM"><img src="https://img.shields.io/npm/dm/solid-hotkeys.svg" alt="NPM downloads" /></a></span>
+
 Solid Hotkeys is the easiest way to add hotkeys to your application.
 Built for and with [Solid](https://github.com/solidjs/solid).
 
@@ -35,7 +41,7 @@ const opposite = (prev: boolean) => !prev;
 const Basic = () => {
   const [show, setShow] = createSignal(false);
 
-  useHotkeys(["Meta", "P"], () => {
+  useHotkeys(['Meta', 'P'], () => {
     setShow(opposite);
   });
 
@@ -54,15 +60,11 @@ Wildcard usage is really if you need to do some super insane stuff with the pres
 ```tsx
 const Wildcard = () => {
   const [keys, setKeys] = createSignal([]);
-  useHotkeys("*", (currentlyPressed) =>
-    setKeys(currentlyPressed)
-  );
+  useHotkeys('*', currentlyPressed => setKeys(currentlyPressed));
 
   return (
     <div>
-      <For each={keys()}>
-        {(item) => <kbd>{item()}</kbd>}
-      </For>
+      <For each={keys()}>{item => <kbd>{item()}</kbd>}</For>
     </div>
   );
 };

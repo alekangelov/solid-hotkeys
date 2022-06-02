@@ -2,5 +2,8 @@
   "extends": ["../../.eslintrc.js"],
   "parserOptions": {
     "project": "./lib/useHotkeys/tsconfig.json"
+  },
+  "globals": {
+    "NodeJS": true
   }
 }
