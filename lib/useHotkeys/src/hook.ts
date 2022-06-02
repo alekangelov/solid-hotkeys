@@ -1,3 +1,4 @@
+import { onCleanup } from 'solid-js';
 import { hotkeyCallbacks } from './common';
 import {
   HotkeyCallback,
@@ -25,4 +26,12 @@ export const createHotkey = (
     return;
   }
   hotkeyCallbacks.set(hkString, [callback]);
+  onCleanup(() => {
+    const callbacksForString = hotkeyCallbacks.get(hkString);
+    if (!callbacksForString?.length) return;
+    hotkeyCallbacks.set(
+      hkString,
+      callbacksForString.filter((cb: InternalCallback) => cb !== callback),
+    );
+  });
 };
