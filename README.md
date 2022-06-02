@@ -53,9 +53,13 @@ const opposite = (prev: boolean) => !prev;
 const Basic = () => {
   const [show, setShow] = createSignal(false);
 
-  useHotkeys(['META', 'P'], () => {
-    setShow(opposite);
-  });
+  createHotkey(
+    ['META', 'S'],
+    pressed => {
+      console.log({ pressed, main: true });
+    },
+    { preventDefault: true },
+  );
 
   return (
     <Show when={show()} fallback={"I'm not shown"}>
@@ -72,7 +76,7 @@ Wildcard usage is really if you need to do some super insane stuff with the pres
 ```tsx
 const Wildcard = () => {
   const [keys, setKeys] = createSignal([]);
-  useHotkeys(['*'], currentlyPressed => setKeys(currentlyPressed));
+  createHotkey(['*'], currentlyPressed => setKeys(currentlyPressed));
 
   return (
     <div>
