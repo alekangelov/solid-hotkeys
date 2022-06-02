@@ -36,8 +36,8 @@
     "prepare": "husky install",
     "postbuild": "bundlesize",
     "gen:badges": "ts-node ./tools/badges.ts",
-    "predeploy": "yarn workspace example build",
-    "deploy": "gh-pages -d dist/app"
+    "predeploy": "rm -rf dist/example && yarn workspace example build",
+    "deploy": "gh-pages -d dist/example"
   },
   "workspaces": [
     "lib/*",

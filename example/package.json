@@ -2,6 +2,7 @@
   "name": "example",
   "version": "0.0.0",
   "description": "",
+  "homepage": "https://alekangelov.github.io/solid-hotkeys",
   "private": true,
   "scripts": {
     "start": "vite",
