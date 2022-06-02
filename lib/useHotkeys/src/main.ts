@@ -51,6 +51,10 @@ export const useHotkeys = (options: Options = {}) => {
     // we need to make sure they're normalized 🫢
     const key = event.key.toUpperCase() as NormalizedKeys;
     pressedKeys.add(key);
+    if (timeouts.has(key)) {
+      clearTimeout(timeouts.get(key));
+      timeouts.delete(key);
+    }
     timeouts.set(
       key,
       setTimeout(() => {
