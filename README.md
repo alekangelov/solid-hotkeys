@@ -53,35 +53,15 @@ const opposite = (prev: boolean) => !prev;
 const Basic = () => {
   const [show, setShow] = createSignal(false);
 
-  createHotkey(
-    ['META', 'S'],
-    pressed => {
-      console.log({ pressed, main: true });
-    },
-    { preventDefault: true },
-  );
+  createHotkey(['META', 'S'], event => {
+    event.preventDefault();
+    setShow(true);
+  });
 
   return (
     <Show when={show()} fallback={"I'm not shown"}>
       I'm shown now
     </Show>
-  );
-};
-```
-
-## Wildcard usage
-
-Wildcard usage is really if you need to do some super insane stuff with the presses. Maybe someone's going to need it, so I added it in v1. If you pass in "\*" as the key array, it's going to fire on every key
-
-```tsx
-const Wildcard = () => {
-  const [keys, setKeys] = createSignal([]);
-  createHotkey(['*'], currentlyPressed => setKeys(currentlyPressed));
-
-  return (
-    <div>
-      <For each={keys()}>{item => <kbd>{item()}</kbd>}</For>
-    </div>
   );
 };
 ```

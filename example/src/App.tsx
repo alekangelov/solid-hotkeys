@@ -3,13 +3,13 @@ import { createHotkey } from 'solid-hotkeys';
 
 const Child = () => {
   const [singal, setSignal] = createSignal(false);
-  createHotkey(['META', 'S'], event => {
+  createHotkey(['META', 'S', 'D'], event => {
     event.preventDefault();
     setSignal(true);
   });
   return (
     <div>
-      i'm shown and press cmd+s to show my child
+      i'm shown and press cmd+s+d to show my child
       <Show when={singal()}>
         <div>and the hotkey was called</div>
       </Show>

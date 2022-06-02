@@ -1,7 +1,6 @@
 import { onCleanup, onMount } from 'solid-js';
 import { HotkeyEvent, NormalizedKeys, Options } from './helpers/types';
-import { hotkeyCallbacks } from './common';
-import { arrEquals, modifierArr, whatModifierIsPressed } from './helpers';
+import { findMatch, modifierArr } from './helpers';
 
 // im using vim now, fuck this is difficult
 export const useHotkeys = (
@@ -61,19 +60,15 @@ export const useHotkeys = (
       pressedKeys.add(key);
     }
     const arr = [...pressedKeys];
-    const combo = arr.join('+');
     // maps are nice and performant
-    const callback = hotkeyCallbacks.get(combo)?.at(-1);
-    if (!callback) {
-      return;
+    const { hasPotential, exact } = findMatch(event, arr);
+    if (exact) {
+      exact(event);
+      clearKeys();
     }
-    const pressedModifiers = whatModifierIsPressed(event);
-    const { modifiers } = callback.options;
-    if (!arrEquals(modifiers, pressedModifiers)) {
-      return;
+    if (hasPotential) {
+      event.preventDefault();
     }
-    callback(event);
-    clearKeys();
   };
 
   const handleKeyUp = (event: HotkeyEvent) => {
