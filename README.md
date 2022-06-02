@@ -61,7 +61,7 @@ Wildcard usage is really if you need to do some super insane stuff with the pres
 ```tsx
 const Wildcard = () => {
   const [keys, setKeys] = createSignal([]);
-  useHotkeys('*', currentlyPressed => setKeys(currentlyPressed));
+  useHotkeys(['*'], currentlyPressed => setKeys(currentlyPressed));
 
   return (
     <div>
