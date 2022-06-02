@@ -1,7 +1,7 @@
 {
   "name": "solid-hotkeys",
   "version": "0.2.4",
-  "private": false,
+  "private": true,
   "description": "",
   "main": "./dist/lib/index.js",
   "types": "./dist/lib/index.d.ts",
@@ -31,6 +31,7 @@
     "prepare": "husky install",
     "postbuild": "bundlesize",
     "gen:badges": "ts-node ./tools/badges.ts",
+    "predeploy": "yarn workspace example build",
     "deploy": "gh-pages -d dist/app"
   },
   "workspaces": [
@@ -48,6 +49,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-solid": "^0.6.0",
+    "gh-pages": "^4.0.0",
     "husky": "^8.0.1",
     "prettier": "^2.6.2",
     "ts-node": "^10.8.0",

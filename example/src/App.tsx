@@ -28,6 +28,7 @@ const App = () => {
   });
   return (
     <div>
+      press cmd+p to show the bottom thing
       <Show when={modal()}>
         <Child />
       </Show>

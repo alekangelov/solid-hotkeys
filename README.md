@@ -16,6 +16,10 @@ Built for and with [Solid](https://github.com/solidjs/solid).
 
 You gotta have hotkeys in your app. It doesn't use timeouts and other stuff like that, but rather checks if the keys currently are pressed and in the right order.
 
+## Gotchas
+
+This library uses OPTIMISTIC DEFAULT PREVANTION or ODP - [YEAH YOU KNOW ME](https://www.youtube.com/watch?v=idx3GSL2KWs). Which basically means if you have a hotkey with the keys META+S+D, everything before that will have it's default behaviour prevented.
+
 ## Installation
 
 There are a couple of things you need to do to install Hotkeys.
@@ -67,6 +71,8 @@ const Basic = () => {
 ```
 
 ### NOTE: THE CURRENTLY PRESSED KEYS ARE ALL UPPERCASE BECAUSE OF NORMALIZATION
+
+- it has full types, so it'll be pretty easy to adjust
 
 ## Types
 
