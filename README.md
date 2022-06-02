@@ -78,12 +78,18 @@ const Wildcard = () => {
 You can also import the types so you can have stricter typing in your app!
 
 ```ts
-import type {Keys, UppercaseKeys, HotkeyEvent}
+import type {
+  HotkeyArray,
+  NormalizedKeys,
+  HotkeyEvent,
+  HotkeyCallback,
+} from 'solid-hotkeys';
 ```
 
-- Keys are all the keys that could be typed
-- Uppercase keys is said keys, but in ALL CAPS
-- HotkeyEvent is a stricter event where keys are strictly typed.
+- HotkeyArray -> what useHotkeys expects -> an array of all the normalized keys
+- Normalized Keys -> All of the keys that are maybe on a keyboard, uppercased
+- HotkeyEvent -> a stricter event where keys are strictly typed.
+- HotkeyCallback -> what the callback for the createHotkey function is
 
 ## Closing notes
 

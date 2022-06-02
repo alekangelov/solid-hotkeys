@@ -1,3 +1,8 @@
 export { createHotkey } from './src/hook';
 export { useHotkeys } from './src/main';
-export * as Types from './src/helpers/types';
+export type {
+  HotkeyArray,
+  NormalizedKeys,
+  HotkeyEvent,
+  HotkeyCallback,
+} from './src/helpers/types';
