@@ -50,19 +50,39 @@ export const arrEquals = <T>(a: T[], b: T[]) => {
   return aUnique.every(item => bUnique.includes(item));
 };
 
+export const comboIsSimilair = (
+  combo: NormalizedKeys[],
+  input: NormalizedKeys[],
+) => {
+  let isSimilair = false;
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < input.length; i++) {
+    if (combo[i] === input[i]) {
+      isSimilair = true;
+    } else {
+      return false;
+    }
+  }
+  return isSimilair;
+};
+
 // we cant know for sure which one is the one we want
 // we have to make a rough guesstimate
 const getHasPotential = (
   comboInput: string,
   pressedModifiers: NormalizedModifiers[],
 ) => {
+  const comboInputArr = comboInput.split('+') as NormalizedModifiers[];
   // eslint-disable-next-line no-restricted-syntax
   for (const [combo, callbacks] of hotkeyCallbacks) {
-    // eslint-disable-next-line no-continue
-    if (!combo.includes(comboInput)) continue;
+    if (!comboIsSimilair(combo.split('+') as NormalizedKeys[], comboInputArr)) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+
     // eslint-disable-next-line no-restricted-syntax
-    for (const clalback of callbacks) {
-      const { options } = clalback;
+    for (const callback of callbacks) {
+      const { options } = callback;
       if (options.modifiers.every(m => pressedModifiers.includes(m))) {
         return true;
       }
