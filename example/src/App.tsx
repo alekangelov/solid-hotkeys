@@ -22,7 +22,7 @@ const opposite = (e: any) => !e;
 const App = () => {
   const [modal, setModal] = createSignal(false);
   const toggle = () => setModal(opposite);
-  createHotkey(['META', 'P'], event => {
+  createHotkey(['ARROWRIGHT'], event => {
     event.preventDefault();
     toggle();
   });
