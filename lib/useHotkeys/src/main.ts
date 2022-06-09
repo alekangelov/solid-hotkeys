@@ -2,22 +2,26 @@ import { onCleanup, onMount } from 'solid-js';
 import { HotkeyEvent, NormalizedKeys, Options } from './helpers/types';
 import { findMatch, modifierArr } from './helpers';
 
+let listenersAttached = false;
+
 // im using vim now, fuck this is difficult
 export const useHotkeys = (
   options: Options = { debug: false, timeout: 500 },
 ) => {
+  if (listenersAttached) return;
+  listenersAttached = true;
   // the keys that have been pressed in the past Options.timeout ms
   const pressedKeys = new Set<NormalizedKeys>();
   // the timeouts for said keys
   const timeouts = new Map<NormalizedKeys, NodeJS.Timeout>();
 
-  // a funciton that clears the timeout map and the timouts themselves
+  // a function that clears the timeout map and the timouts themselves
   // this HAS to be done because of how keyup works
-  // spoiler alert it doesnt
+  // spoiler alert it doesn't
   // if you release multiple keys, only one event will fire
   // aka a bug's life
   const clearAllTimeouts = () => {
-    // if (options.debug) console.log('CLEARING ALL IMEOUTS');
+    // if (options.debug) console.log('CLEARING ALL TIMEOUTS');
     timeouts.forEach((timeout, key) => {
       clearTimeout(timeout);
       timeouts.delete(key);
@@ -84,6 +88,7 @@ export const useHotkeys = (
     window.addEventListener('keydown', handleKeyDown as any);
     window.addEventListener('keyup', handleKeyUp as any);
     onCleanup(() => {
+      listenersAttached = false;
       window.removeEventListener('keydown', handleKeyDown as any);
       window.removeEventListener('keyup', handleKeyUp as any);
     });
